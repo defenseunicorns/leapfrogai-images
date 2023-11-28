@@ -6,6 +6,8 @@ contents:
   packages:
   - "wolfi-base"
   - "wolfi-baselayout"
+  - "cmake"
+  - "build-base"
   - "apk-tools"
   - "python-3.11"
   - "python-3.11-dev"
