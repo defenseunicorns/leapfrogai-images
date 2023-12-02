@@ -35,10 +35,9 @@ jobs:
 
       - name: Build python-3.11-dev
         run: |
-          apko build python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python-3.11-dev python-3.11-dev-${{ matrix.arch }}.tar --debug --arch ${{ matrix.arch }}
+          apko build python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python-3.11-dev-${{ matrix.arch }} python-3.11-dev-${{ matrix.arch }}.tar --debug --arch ${{ matrix.arch }}
 
       - name: Upload to ghcr.io
         run: |
           docker load -i python-3.11-dev-${{ matrix.arch }}.tar
-          docker image ls
-          docker push -a
+          docker push ghcr.io/defenseunicorns/leapfrogai/python-3.11-dev-${{ matrix.arch }}
