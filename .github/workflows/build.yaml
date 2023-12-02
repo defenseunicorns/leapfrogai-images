@@ -1,7 +1,6 @@
 name: Build Images
 
 on:
-  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -35,5 +34,5 @@ jobs:
 
       - name: Publish python-3.11-dev
         run: |
-          apko publish python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev --arch ${{ matrix.arch }}
+          apko publish python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev-{{ matrix.arch }} --arch ${{ matrix.arch }} --sbom false
 
