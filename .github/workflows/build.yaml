@@ -40,4 +40,5 @@ jobs:
       - name: Upload to ghcr.io
         run: |
           docker load -i python-3.11-dev-${{ matrix.arch }}.tar
+          docker image ls
           docker push -a
