@@ -33,12 +33,7 @@ jobs:
         run: |
           go install chainguard.dev/apko@latest
 
-      - name: Build python-3.11-dev
+      - name: Publish python-3.11-dev
         run: |
-          apko build python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python-3.11-dev-${{ matrix.arch }} python-3.11-dev-${{ matrix.arch }}.tar --debug --arch ${{ matrix.arch }}
+          apko publish python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev --arch ${{ matrix.arch }}
 
-      - name: Upload to ghcr.io
-        run: |
-          docker load -i python-3.11-dev-${{ matrix.arch }}.tar
-          docker tag python-3.11-dev-${{ matrix.arch }} ghcr.io/defenseunicorns/leapfrogai/python-3.11-dev-${{ matrix.arch }}:latest
-          docker push ghcr.io/defenseunicorns/leapfrogai/python-3.11-dev-${{ matrix.arch }}
