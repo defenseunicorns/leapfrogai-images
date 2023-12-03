@@ -5,13 +5,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-python-dev:
-    name: build-python-dev
+  build-all:
+    name: Build All Architectures
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        arch: [x86_64, aarch64]
 
     steps:
       - name: Checkout
@@ -33,7 +31,6 @@ jobs:
         run: |
           go install chainguard.dev/apko@latest
 
-      - name: Publish python-3.11-dev
+      - name: Build Step
         run: |
-          apko publish python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev-${{ matrix.arch }} --arch ${{ matrix.arch }} --sbom false
-
+          make build-all
