@@ -4,7 +4,13 @@
 
 * [apko](https://apko.dev)
 
-## Instructions
+## GitHub Runner Instructions
+
+`Test Build Images` runs on PR to ensure images build successfully.
+
+`Publish Images` must be manually triggered from the `Actions` tab.
+
+## Local Instructions
 
 ### Build
 
