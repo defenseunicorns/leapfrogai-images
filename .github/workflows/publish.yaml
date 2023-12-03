@@ -1,0 +1,39 @@
+name: Publish Images
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-all:
+    name: Publish All Architectures
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '^1.13.1'
+
+      - name: Setup apko
+        run: |
+          go install chainguard.dev/apko@latest
+
+      - name: Build Step
+        run: |
+          make build-all
+
+      - name: Publish Step
+        run: |
+          make publish-all

@@ -4,17 +4,61 @@
 
 * [apko](https://apko.dev)
 
-## Example
+## GitHub Runner Instructions
 
+`Test Build Images` runs on PR to ensure images build successfully.
+
+`Publish Images` must be manually triggered from the `Actions` tab.
+
+## Local Instructions
+
+### Build
+
+
+To build all architectures:
+
+``` shell
+make build-all  # All Architectures
 ```
-$ apko build python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev python-3.11-dev.tar
-$ apko build python-3.11.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11 python-3.11.tar
-$ docker load < python-3.11-dev.tar
-$ docker load < python-3.11.tar
+
+``` shell
+# Individual Architectures
+make build-amd64
+make build-arm64
+make build-dev-amd64
+make build-dev-arm64
 ```
 
-## TODO
+### Publish
 
-* Automation
-* Maybe better tagging?
-* Maybe move over to TF / reduce duplication between apko manifests
+To publish to GHCR:
+
+> If running locally, ensure you have a GitHub auth token setup.
+
+``` shell
+make publish-all    # All Architectures
+```
+
+``` shell
+# Individual Architectures
+make publish-amd64
+make publish-arm64
+make publish-dev-amd64
+make publish-dev-arm64
+```
+
+### Cleanup
+
+To remove all artifacts created by build step:
+
+``` shell
+make cleanup-all    # Everything
+```
+
+``` shell
+make cleanup-files  # Just the local files
+```
+
+``` shell
+make cleanup-images # Just the images
+```
