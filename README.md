@@ -3,10 +3,9 @@
 ## Pre-requisites
 
 * [apko](https://apko.dev)
+* [Docker](https://www.docker.com/)
 
 ## GitHub Runner Instructions
-
-`Test Build Images` runs on PR to ensure images build successfully.
 
 `Publish Images` must be manually triggered from the `Actions` tab.
 
@@ -14,37 +13,14 @@
 
 ### Build
 
-
-To build all architectures:
-
-``` shell
-make build-all  # All Architectures
-```
+Builds two base images, one for the builder image and one for the final production image.
 
 ``` shell
-# Individual Architectures
-make build-amd64
-make build-arm64
-make build-dev-amd64
-make build-dev-arm64
-```
+# Dev/Builder Image
+make build-dev
 
-### Publish
-
-To publish to GHCR:
-
-> If running locally, ensure you have a GitHub auth token setup.
-
-``` shell
-make publish-all    # All Architectures
-```
-
-``` shell
-# Individual Architectures
-make publish-amd64
-make publish-arm64
-make publish-dev-amd64
-make publish-dev-arm64
+# Production Image
+make build
 ```
 
 ### Cleanup
@@ -52,13 +28,5 @@ make publish-dev-arm64
 To remove all artifacts created by build step:
 
 ``` shell
-make cleanup-all    # Everything
-```
-
-``` shell
-make cleanup-files  # Just the local files
-```
-
-``` shell
-make cleanup-images # Just the images
+make cleanup
 ```

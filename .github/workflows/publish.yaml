@@ -5,35 +5,49 @@ on:
 
 jobs:
   publish-all:
-    name: Publish All Architectures
+    name: Publish amd64 and arm64 images
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
         with:
           go-version: '^1.13.1'
 
       - name: Setup apko
         run: |
-          go install chainguard.dev/apko@latest
+          go install chainguard.dev/apko@954b211cf5497b88ab969021c533f417e1d786b6 # v0.13.2
 
       - name: Build Step
         run: |
-          make build-all
+          apko build python-3.11.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11 python-3.11.tar
+          docker load -i python-3.11.tar
+          apko build python-3.11-dev.yaml ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev python-3.11-dev.tar
+          docker load -i python-3.11-dev.tar
+
+      - name: Merge Manifests
+        run: |
+          docker manifest create ghcr.io/defenseunicorns/leapfrogai/python:3.11 \
+          --amend ghcr.io/defenseunicorns/leapfrogai/python:3.11-amd64 \
+          --amend ghcr.io/defenseunicorns/leapfrogai/python:3.11-arm64
+
+          docker manifest create ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev \
+          --amend ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev-amd64 \
+          --amend ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev-arm64
 
       - name: Publish Step
         run: |
-          make publish-all
+          docker manifest push ghcr.io/defenseunicorns/leapfrogai/python:3.11
+          docker manifest push ghcr.io/defenseunicorns/leapfrogai/python:3.11-dev
