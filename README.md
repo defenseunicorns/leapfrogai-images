@@ -7,18 +7,20 @@
 
 ## GitHub Runner Instructions
 
-`Test Build Images` runs on PR to ensure images build successfully.
-
 `Publish Images` must be manually triggered from the `Actions` tab.
 
 ## Local Instructions
 
 ### Build
 
+Builds two base images, one for the builder image and one for the final production image.
+
 ``` shell
-# Individual Architectures
-make build
+# Dev/Builder Image
 make build-dev
+
+# Production Image
+make build
 ```
 
 ### Cleanup
